@@ -1,0 +1,12 @@
+# Unit tests
+tests
+
+# config file
+config.py
+
+# pycache
+__pycache__
+
+# Logs
+*.log
+*.egg-info
