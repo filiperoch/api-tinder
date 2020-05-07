@@ -1,11 +1,18 @@
 # Unit tests
 tests
+test.py
 
-# config file
+# config
 config.py
+dist
+build
+setup.py
 
 # pycache
 __pycache__
+
+# VS Code Settings
+.vscode
 
 # Logs
 *.log

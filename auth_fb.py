@@ -10,7 +10,7 @@ import requests
 import robobrowser
 
 MOBILE_USER_AGENT = "Tinder/11.14.0 (iPhone; iOS 13.4.1; Scale/2.00)"
-url_auth = "https://www.facebook.com/login.php?skip_api_login=1&api_key=464891386855067&kid_directed_site=0&app_id=464891386855067&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fv2.8%2Fdialog%2Foauth%3Fapp_id%3D464891386855067%26cbt%3D1588016031099%26channel_url%3Dhttps%253A%252F%252Fstaticxx.facebook.com%252Fconnect%252Fxd_arbiter.php%253Fversion%253D46%2523cb%253Df175f24fae866b4%2526domain%253Dtinder.com%2526origin%253Dhttps%25253A%25252F%25252Ftinder.com%25252Ff1a94e0f0525c54%2526relation%253Dopener%26client_id%3D464891386855067%26display%3Dpopup%26domain%3Dtinder.com%26e2e%3D%257B%257D%26fallback_redirect_uri%3Dhttps%253A%252F%252Ftinder.com%252F%26locale%3Den_US%26logger_id%3Df30f4c360ee4808%26origin%3D1%26redirect_uri%3Dhttps%253A%252F%252Fstaticxx.facebook.com%252Fconnect%252Fxd_arbiter.php%253Fversion%253D46%2523cb%253Df3fd82d04dc71%2526domain%253Dtinder.com%2526origin%253Dhttps%25253A%25252F%25252Ftinder.com%25252Ff1a94e0f0525c54%2526relation%253Dopener%2526frame%253Dfd42c833f84bc%26response_type%3Dtoken%252Csigned_request%252Cgraph_domain%26scope%3Duser_birthday%252Cuser_photos%252Cemail%252Cuser_likes%26sdk%3Djoey%26version%3Dv2.8%26ret%3Dlogin%26fbapp_pres%3D0%26logged_out_behavior%3D6&cancel_url=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D46%23cb%3Df3fd82d04dc71%26domain%3Dtinder.com%26origin%3Dhttps%253A%252F%252Ftinder.com%252Ff1a94e0f0525c54%26relation%3Dopener%26frame%3Dfd42c833f84bc%26error%3Daccess_denied%26error_code%3D200%26error_description%3DPermissions%2Berror%26error_reason%3Duser_denied&display=popup&locale=en_US&pl_dbl=0"
+url_auth = "https://www.facebook.com/v2.8/dialog/oauth?app_id=464891386855067&cbt=1588812042858&channel_url=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D46%23cb%3Df341452d0bbc84%26domain%3Dtinder.com%26origin%3Dhttps%253A%252F%252Ftinder.com%252Ff519b02b3e7a58%26relation%3Dopener&client_id=464891386855067&display=popup&domain=tinder.com&e2e=%7B%7D&fallback_redirect_uri=https%3A%2F%2Ftinder.com%2F&locale=en_US&logger_id=f1ec8e1ebc3b9f4&origin=1&redirect_uri=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D46%23cb%3Dfaf96f1df020e%26domain%3Dtinder.com%26origin%3Dhttps%253A%252F%252Ftinder.com%252Ff519b02b3e7a58%26relation%3Dopener%26frame%3Df1ac99c804cd72c&response_type=token%2Csigned_request%2Cgraph_domain&scope=user_birthday%2Cuser_photos%2Cemail%2Cuser_likes&sdk=joey&version=v2.8"
 
 
 def get_fb_access_token(email, password):
@@ -21,9 +21,11 @@ def get_fb_access_token(email, password):
     form["email"] = email
     browser.submit_form(form, submit=form['login'])
 
-    # VERIFICAR CONFIRMAÇÃO POR "OK" QUANDO É NOVO USUÁRIO PELO FACEBOOK
-
     try:
+        if browser.get_form(id="platformDialogForm") != None:
+            formPermissions = browser.get_form(id="platformDialogForm")
+            browser.submit_form(formPermissions, submit=formPermissions['__CONFIRM__'])
+        
         access_token = re.search(
             r"access_token=([\w\d]+)", browser.response.content.decode()).groups()[0]
         
