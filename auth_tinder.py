@@ -1,7 +1,7 @@
 # coding=utf-8
 ### API Tinder non-officially. Apr 2020
 ### Author: Filipe Rocha Silva
-### https://github.com/filiperochs
+### https://github.com/filiperochs/api-tinder
 ### MIT License
 
 import json
